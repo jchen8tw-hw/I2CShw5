@@ -10,7 +10,7 @@ int main()
 
     Heap<int, char> heap;
 
-    ifstream file("input.txt");
+    ifstream file("input3.txt");
 
     int opNum;
     int heapNum;

@@ -41,9 +41,17 @@ class AbsHeap {
         }
 
         void printByPopping() {
-            while (!isEmpty())
+        	while (!isEmpty()){
+        		//printArray();
                 cout << pop();
+            }
             cout << endl;
+            /*
+            while (!isEmpty()){
+                cout << pop();
+            }
+            cout << endl;
+            */
         }
 
         K getTopKey() const {
@@ -76,12 +84,78 @@ class Heap: public AbsHeap<K,E> {
     using AbsHeap<K,E>::ary;
     using AbsHeap<K,E>::size;
     using AbsHeap<K,E>::swap;
-
     /**************************
      * Complete your code here.
      * You need to implement all
      * pure virtual functions (push & pop).
      * ************************/
+	public:
+	    void push(K _key,E _element){
+	    	size ++;
+	    	ary[size-1].key = _key;
+	    	ary[size-1].element = _element;
+	    	int i = size -1;
+	    	while(1){
+	    		if(i==0)break;
+	    		if(ary[(i-1)/2].key>ary[i].key){
+	    			swap((i-1)/2,i);
+	    			i = (i-1)/2;
+	    		}
+	    		else{
+	    			break;
+	    		}
+	    	}
+	    }
+	    E pop(){
+	    	E rE = ary[0].element;
+	    	//cout << rE << endl;
+	    	swap(0,size-1);
+	    	size--;
+	    	int i = 0;
+	    	while(1){
+	    		if(i*2+2 < size){
+	    			if(ary[i].key > ary[i*2+1].key && ary[i].key > ary[i*2+2].key){
+		    			if(ary[i*2+1].key < ary[i*2+2].key){
+		    				swap(i,i*2+1);
+		    				i = i*2+1;
+		    				//cout << i << endl;
+		    				//cout << "swaped left" << endl;
+		    			}
+		    			else if(ary[i*2+1].key >= ary[i*2+2].key){
+		    				swap(i,i*2+2);
+		    				i = i*2+2;
+		    				//cout << i << endl;
+		    				//cout << "swaped right" << endl;
+		    			}
+		    		}
+		    		else if(ary[i].key > ary[i*2+1].key){
+		    			swap(i,i*2+1);
+		    			i = i*2+1;
+		    		}
+		    		else if(ary[i].key > ary[i*2+2].key){
+		    			swap(i,i*2+2);
+		    			i = i*2+2;
+		    		}
+		    		else
+		    			break;
+	    		}
+	    		if(i*2+1 < size && i*2+2 >= size){
+	    			if(ary[i*2+1].key < ary[i].key){
+	    				swap(i,i*2+1);
+	    				i = i*2+1;
+	    			}
+	    			else{
+	    				break;
+	    			}
+	    			//cout << i << endl;
+	    			//cout << "swaped left" << endl;
+	    		}
+	    		//AbsHeap<K,E>::printArray();
+	    		if(i*2+1 >= size) break;
+	    		//cout << i << " " << size << endl;
+	    	}
+	    	return rE;
+	    }
 
 };
 
